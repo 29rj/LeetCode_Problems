@@ -13,18 +13,14 @@ class Solution{
     int maxLen(vector<int>&A, int n)
     {   
         unordered_map<int,int>mp;
+        
         int prev = A[0];
         
         mp[prev] = 0;
+        
         mp[0] = -1;
         
         int mx = 0;
-        bool ch;
-        
-        if(prev == 0)
-            ch = true;
-        else
-            ch = false;
         
         for(int i=1;i<n;i++){
             
@@ -38,11 +34,7 @@ class Solution{
             }
         }
         
-        if(mx != 0)
-            return mx;
-        if(ch)
-            return 1;
-        return 0;
+       return mx;
     }
 };
 
