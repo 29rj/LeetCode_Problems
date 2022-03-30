@@ -13,8 +13,8 @@ public:
         if(head == NULL || head -> next == NULL)
             return NULL;
         
-        if(head == head->next->next)
-            return head;
+        // if(head == head->next->next)
+        //     return head;
         
         ListNode *temp = head , *fast = head, *slow = head;
         
