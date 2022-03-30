@@ -14,7 +14,7 @@ public:
         
         ListNode *fast = head->next , *slow = head;
         
-        while(slow != NULL && fast != NULL && fast->next != NULL){
+        while(fast != NULL && fast->next != NULL){
             
             if(fast == slow)
                 return true;
