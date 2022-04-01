@@ -4,15 +4,15 @@ public:
         
         int count = 0 , len = nums.size() , i = 0 ,j = 1;
         
-        while(j<nums.size()){;
+        while(j<nums.size()){
             
             if(nums[j]!=nums[i]){
                 i++;
-                nums[i] = nums[j];
-                j++;
-            }else{
-                j++;
+                nums[i] = nums[j];   
             }
+            
+            j++;
+                             
         }
         
         return i+1;
