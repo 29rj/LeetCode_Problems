@@ -1,35 +1,44 @@
 class Solution {
 public:
-    
-    
-    bool checkPalindrome(string st){
+    bool isPalindrome(string s){
         
-        string rev = st;
-        reverse(st.begin(),st.end());
-        return st == rev;
-    }
-    
-    void checkPartition(string str , int st , vector<vector<string>>&ans , vector<string>&vec){
+        int i=0,j=s.length();
+        j--;
         
-        if(st == str.length()){
-            ans.push_back(vec);
+        while(i<j){
+            
+            if(s[i++] != s[j--])
+                return false;
         }
         
-        for(int i=st; i < str.length(); i++){
+        return true;
+    }
+    
+    void checkAll(vector<vector<string>> &ans, vector<string> &now,int st,string s){
+        
+        if(st == s.length()){
+            ans.push_back(now);
+            return;
+        }
+        
+        for(int i=st;i<s.length();i++){
             
-            if(checkPalindrome(str.substr(st,i-st+1))){
-                vec.push_back( str.substr(st,i-st+1) );
-                checkPartition(str, i + 1 , ans , vec);
-                vec.pop_back();
-            }   
+            if(isPalindrome(s.substr(st,i-st+1))){
+                now.push_back(s.substr(st,i-st+1));
+                checkAll(ans,now,i+1,s);
+                now.pop_back();
+            }
         }
     }
     
     vector<vector<string>> partition(string s) {
         
-        vector<vector<string>>ans;
-        vector<string> vec;
-        checkPartition(s,0,ans,vec);
+        vector<vector<string>> ans;
+        
+        vector<string>now;
+        
+        checkAll(ans,now,0,s);
+        
         return ans;
         
     }
