@@ -3,6 +3,7 @@ public:
     vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
         
         stack<int>stk;
+        
         for(int i=(int)(nums2.size())-1;i>=0 ;i--){
             stk.push(nums2[i]);
         }
@@ -14,8 +15,6 @@ public:
             while(now.top() != nums1[i]){
                 now.pop();
             }
-            
-            // cout << now.top() << "\n";
             
             while(!now.empty() && now.top() <= nums1[i]){
                 now.pop();
