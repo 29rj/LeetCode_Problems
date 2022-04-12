@@ -10,66 +10,43 @@ public:
         if(i-1>=0 && j-1>=0) {
             if(board[i-1][j-1] == 0) de++;
             else lv++;
-            
-            // if(i == 1 && j == 2)
-            //     cout << "1" << "\n";
         }
         
         if(i-1 >=0 && j+1<m){
             if(board[i-1][j+1] == 0) de++;
             else lv++;
-            
-//             if(i == 1 && j == 2)
-//                 cout << "2" << "\n";
         }
         
         if(i+1<n && j-1>=0){
             if(board[i+1][j-1] == 0) de++;
             else lv++;
-            
-            // if(i == 1 && j == 2)
-            //     cout << "3" << "\n";
         }
         
         if(i+1<n && j+1<m){
             if(board[i+1][j+1] == 0) de++;
             else lv++;
-            
-            // if(i == 1 && j == 2)
-            //     cout << "4" << "\n";
         }
         
         if(i-1>=0){
             if(board[i-1][j] == 0) de++;
             else lv++;
-            
-//             if(i == 1 && j == 2)
-//                 cout << "5" << "\n";
         }
         
         if(i+1<n){
             if(board[i+1][j] == 0) de++;
             else lv++;
-            
-            // if(i == 1 && j == 2)
-            //     cout << "6" << "\n";
         }
         
         
         if(j-1>=0){
             if(board[i][j-1] == 0) de++;
             else lv++;
-            
-//             if(i == 1 && j == 2)
-//                 cout << "7" << "\n";
         }
         
         if(j+1<m){
             if(board[i][j+1] == 0) de++;
             else lv++;
             
-            // if(i == 1 && j == 2)
-            //     cout << "8" << "\n";
         }
         
         pair<int,int>pr = {lv,de};
