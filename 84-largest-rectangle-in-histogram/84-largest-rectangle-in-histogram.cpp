@@ -3,7 +3,7 @@ public:
     int largestRectangleArea(vector<int>& heights) {
         int n = heights.size();
         
-        vector<int>left(n),right(n);
+        vector<int>left(n,0),right(n,n-1);
         
         stack<int>stk;
         stk.push(0);
@@ -16,9 +16,7 @@ public:
                 stk.pop();
             }
             
-            if(stk.empty())
-                left[i] = 0;
-            else
+            if(!stk.empty())
                 left[i] = stk.top()+1;
             
             stk.push(i);
@@ -37,12 +35,9 @@ public:
                 stk.pop();
             }
             
-            if(stk.empty()){
-                right[i] = n-1;
-            }
-            else{
+            if(!stk.empty()){
                 right[i] = stk.top()-1;
-            }
+            } 
             
             stk.push(i);
         }
