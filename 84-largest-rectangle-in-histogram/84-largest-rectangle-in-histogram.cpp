@@ -23,16 +23,12 @@ public:
             
             stk.push(i);
         }
-        
-        // for(auto&it:left)
-        //     cout << it << " ";
-        // cout << "\n";
-        
+    
         right[n-1] = n-1;
         
         stack<int>su;
         stk = su;
-        // cout << stk.size() << "\n";
+      
         stk.push(n-1);
         
         for(int i=n-2;i>=0;i--){
@@ -50,10 +46,6 @@ public:
             
             stk.push(i);
         }
-        
-        // for(auto&it:right)
-        //     cout << it << " ";
-        // cout << "\n";
         
         int mx = 0;
         
