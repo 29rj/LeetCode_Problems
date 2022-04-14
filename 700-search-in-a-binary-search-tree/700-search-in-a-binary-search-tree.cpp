@@ -19,20 +19,11 @@ public:
         if(root->val == val)
             return root;
         
-        
-        
-        TreeNode *left = nullptr , *right = nullptr;
-        
-        
-        if(val < root->val)
-            left = searchBST(root->left,val);
-        else
-            right= searchBST(root->right,val);
+        TreeNode *left = searchBST(root->left,val);
         
         if(left)
             return left;
-        
-        return right;
-        
+            
+        return searchBST(root->right,val);
     }
 };
