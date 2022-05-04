@@ -15,21 +15,8 @@ public:
                 j--;
             }
             else{
-//                 if(nums[j] == nums[j-1] || nums[i] == nums[i+1]){
-//                     int k = j;
-                    
-//                     while(k>i+1 && nums[k]==nums[k-1]){
-//                         // count++;
-//                         k--;
-//                     }
-                    
-//                     i++;
-//                     // count++;
-//                 }
-                {
-                    count++;
-                    i++,j--;
-                }
+                count++;
+                i++,j--;
             }
         }
         
