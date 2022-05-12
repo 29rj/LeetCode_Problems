@@ -1,37 +1,27 @@
 class Solution {
 public:
-    
-    void helper(vector<int> &nums,set<vector<int>> &ans,vector<int> &vec,map<int,int> &mp) {
-        
-        if(vec.size() == nums.size()){
-            ans.insert(vec);
+    void helper(vector<int>&nums,int i,set<vector<int>> &ans){
+        if(i == nums.size()){
+            ans.insert(nums);
             return;
         }
         
-        for(int i=0;i<nums.size();i++){
-            
-            if(mp.find(i) == mp.end()){
-                mp[i]++;
-                vec.push_back(nums[i]);
-                helper(nums,ans,vec,mp);
-                vec.pop_back();
-                mp.erase(i);
-            }
+        for(int st=i;st<nums.size();st++){
+            swap(nums[st],nums[i]);
+            helper(nums,i+1,ans);
+            swap(nums[st],nums[i]);
         }
+            
     }
     
     vector<vector<int>> permuteUnique(vector<int>& nums) {
         
         set<vector<int>>ans;
+      
+        helper(nums,0,ans);
         
-        map<int,int>mp;
+        vector<vector<int>>now(ans.begin(),ans.end());
         
-        vector<int>vec;
-        
-        helper(nums,ans,vec,mp);
-        
-        vector<vector<int>>oans(ans.begin(),ans.end());
-        
-        return oans;
+        return now;
     }
 };
