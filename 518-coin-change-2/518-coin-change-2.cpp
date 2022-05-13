@@ -13,10 +13,19 @@ public:
         if(dp[i][amount]!=-1)
             return dp[i][amount];
         
-        int ans;
+        int ans=0;
         
         if(coins[i]<=amount){
-            ans = helper(coins,amount-coins[i],i) + helper(coins,amount,i+1);
+            
+            if(dp[i][amount-coins[i]] != -1)
+                ans += dp[i][amount-coins[i]];
+            else
+                ans += helper(coins,amount-coins[i],i);
+            
+            if(i+1< coins.size() && dp[i+1][amount] != -1)
+                ans += dp[i+1][amount];
+            else
+                ans += helper(coins,amount,i+1);
         }else{
             ans = helper(coins,amount,i+1);
         }
