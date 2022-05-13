@@ -18,6 +18,10 @@ public:
         int total = 0;
         
         for(int i=0;i<nums.size();i++){
+            if(mp.find(nums[i]+sum) != mp.end()){
+                total += mp[nums[i]+sum];
+                continue;
+            }
             total += helper(nums,sum+nums[i],target);
         }
         
