@@ -1,26 +1,32 @@
 class Solution {
 public:
-    int change(int amount, vector<int>& coins) {
+    vector<vector<int>>dp;
+    
+    int helper(vector<int>& coins, int amount ,int i){ 
         
-        vector<vector<int>>dp(coins.size()+1,vector<int>(amount+1,0));
+        if(amount == 0)
+            return 1;
         
-        for(int i=0;i<=coins.size();i++){
-            for(int j=0;j<=amount;j++){
-                if(j == 0){
-                    dp[i][j] = 1;
-                }
-                else if(i == 0){
-                    dp[i][j] = 0;
-                }
-                else{
-                    if(coins[i-1]<=j)
-                        dp[i][j] = dp[i-1][j] + dp[i][j-coins[i-1]];
-                    else
-                        dp[i][j] = dp[i-1][j];
-                }
-            }
+        if(i==coins.size())
+            return 0;
+        
+        if(dp[i][amount]!=-1)
+            return dp[i][amount];
+        
+        int ans;
+        
+        if(coins[i]<=amount){
+            ans = helper(coins,amount-coins[i],i) + helper(coins,amount,i+1);
+        }else{
+            ans = helper(coins,amount,i+1);
         }
         
-        return dp[coins.size()][amount];
+        dp[i][amount] = ans;
+        return ans;
+    }
+    
+    int change(int amount, vector<int>& coins) {
+        dp.resize(coins.size(),vector<int>(amount+1,-1));
+        return helper(coins,amount,0);
     }
 };
