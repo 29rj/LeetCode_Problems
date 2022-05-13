@@ -27,7 +27,11 @@ public:
             else
                 ans += helper(coins,amount,i+1);
         }else{
-            ans = helper(coins,amount,i+1);
+            
+            if(i+1< coins.size() && dp[i+1][amount] != -1)
+                ans += dp[i+1][amount];
+            else
+                ans += helper(coins,amount,i+1);
         }
         
         dp[i][amount] = ans;
