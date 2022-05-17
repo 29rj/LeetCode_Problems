@@ -28,8 +28,7 @@ public:
         vector<string> ans;
         // char s[2*n];
         string s = "";
-        for(int i=0;i<2*n;i++)
-            s += 'a';
+        s.resize(2*n);
         pp(n,0,0,0,s,ans);
         return ans;
     }
