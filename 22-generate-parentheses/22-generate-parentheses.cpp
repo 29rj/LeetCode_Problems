@@ -1,27 +1,36 @@
 class Solution {
 public:
-    
-    void helper(vector<string>& ans , int l , int r ,string st){
-        
-        if(l == 0 && r == 0)
-        {
-            ans.push_back(st);
+   void pp(int n, int l, int r, int i,string &s,vector<string>& ans){
+
+        if(l+r==2*n){
+                ans.push_back(s);
             return;
         }
         
-        if(l > 0){
-            helper(ans , l-1 , r+1 , st+"(");
+        if(l==r){
+            s[i]='(';
+            pp(n,l+1,r,i+1,s,ans);
+        }else if(l>r){
+            if(l==n){
+                s[i]=')';
+                pp(n,l,r+1,i+1,s,ans);
+            }else{
+                s[i]='(';
+                pp(n,l+1,r,i+1,s,ans);
+                
+                s[i]=')';
+                pp(n,l,r+1,i+1,s,ans);
+            }
         }
         
-        if(r > 0)
-            helper(ans , l , r-1 , st+")");
     }
-    
     vector<string> generateParenthesis(int n) {
-        vector<string>ans;
-        
-        helper(ans , n , 0 , "");
-        
+        vector<string> ans;
+        // char s[2*n];
+        string s = "";
+        for(int i=0;i<2*n;i++)
+            s += 'a';
+        pp(n,0,0,0,s,ans);
         return ans;
     }
 };
