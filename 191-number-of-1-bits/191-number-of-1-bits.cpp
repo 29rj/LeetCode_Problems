@@ -3,7 +3,6 @@ public:
     int hammingWeight(uint32_t n) {
         
         string bs = bitset<32>(n).to_string();
-        cout << bs << "\n";
         
         auto cn = [](string s){
             int cn=0;
@@ -16,7 +15,5 @@ public:
         };
         
         return cn(bs);
-        // return k;
-        
     }
 };
