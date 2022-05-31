@@ -9,34 +9,44 @@ class Solution
 	//Function to return list containing vertices in Topological order. 
 	vector<int> topoSort(int V, vector<int> adj[]) 
 	{
-	    function<void(vector<int>[],vector<bool>&,vector<int>&,int)>dfs = [&](vector<int>graph[],vector<bool>&vis,vector<int>&ans,int node){
-	        
-	        for(auto&it:graph[node]){
-	            if(!vis[it]){
-	                vis[it] = true;
-	                dfs(graph,vis,ans,it);
-	            }
-	        }
-	        
-	        ans.push_back(node);
-	    };
+	    vector<int>vec(V,0);
 	    
-	    vector<bool>vis(V,false);
-	    vector<int>ans;
-	    
+	    //in-degree
 	    for(int i=0;i<V;i++){
-	        if(!vis[i]){
-	            vis[i] = true;
-	            dfs(adj,vis,ans,i);
+	        for(auto&it:adj[i]){
+	            vec[it]++;
 	        }
 	    }
 	    
-	   // for(int i=0;i<ans.size();i++){
-	   //     cout << ans[i] << " ";
-	   // }
-	   
-	   reverse(ans.begin(),ans.end());
-	   
+	    auto bfs = [&](vector<int>graph[],vector<int>&vec,vector<int>&ans){
+	        
+	        queue<int>q;
+	        
+	        for(int i=0;i<V;i++){
+	            if(vec[i] == 0){
+	                q.push(i);
+	            }
+	        }
+	        
+	        while(!q.empty()){
+	            int curr = q.front();
+	            q.pop();
+	            ans.push_back(curr);
+	            
+	            for(auto&it:graph[curr]){
+	                
+	                if(vec[it] != 0){
+	                    vec[it]--;
+	                    if(vec[it] == 0){
+	                        q.push(it);
+	                    }
+	                }
+	            }
+	        }
+	    };
+	    
+	    vector<int>ans;
+	    bfs(adj,vec,ans);
 	    return ans;
 	}
 };
