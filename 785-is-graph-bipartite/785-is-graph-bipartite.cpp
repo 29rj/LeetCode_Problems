@@ -1,52 +1,46 @@
 class Solution {
 public:
-    
-    bool bfs(vector<vector<int>>&graph,int i,vector<int>&color){
-        queue<int>q;
-        q.push(i);
-        color[i]=0;
+    bool isBipartite(vector<vector<int>>& graph) {
         
-        while(!q.empty()){
-            int curr = q.front();
-            q.pop();
+        function<bool(vector<vector<int>>&,vector<int>&,int,int)> dfs = [&](vector<vector<int>>&graph,vector<int>&color,int c,int node){
             
-            for(int j=0;j<graph[curr].size();j++){
+            color[node] = c;
+            
+            for(int j=0;j<graph[node].size();j++){
                 
-                if(color[graph[curr][j]] == -1){
-                    color[graph[curr][j]] = color[curr]^1;
-                    q.push(graph[curr][j]);
-                }else if(color[graph[curr][j]] == color[curr]){
+                if(color[graph[node][j]] == -1){
+                    
+                    int k = c^1;
+                    
+                    if(!dfs(graph,color,k,graph[node][j]))
+                        return false;
+                    
+                }else if(color[graph[node][j]] == color[node]){
                     return false;
                 }
             }
-        }
-        return true;
-    }
-
-    bool isBipartite(vector<vector<int>>& graph) {
+            
+            return true;
+        };
         
         vector<int>color(graph.size(),-1);
         
-        // for(int i=0;i<graph.size();i++){
-        //     for(int j=0;j<graph[i].size();j++){
-        //         cout << graph[i][j] << " "; 
-        //     }
-        //     cout << "\n";
-        // }
-        
         for(int i=0;i<graph.size();i++){
             if(color[i] == -1){
-                if(!bfs(graph,i,color)){
-                    
-                    for(auto&it:color){
-                        cout << it << " ";
-                    }
-        
+                if(!dfs(graph,color,0,i))
+                {
+                    // for(auto&it:color){
+                    //     cout << it << " ";
+                    // }
                     return false;
                 }
+
             }
         }
         
+        // for(auto&it:color){
+        //     cout << it << " ";
+        // }
         
         return true;
     }
