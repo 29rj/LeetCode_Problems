@@ -1,33 +1,52 @@
 class Solution {
 public:
-    vector<int>vis,col;
-    bool dfs(int v, int c, vector<vector<int>>& graph){
-        vis[v]=1;
-        col[v]=c;
-        for(int child:graph[v]){
-            if(vis[child]==0){
-                // here c^1 is for flipping 1 by 0 or 0 by 1, that is flip the current color
-                if(dfs(child,c^1,graph)==false) 
+    
+    bool bfs(vector<vector<int>>&graph,int i,vector<int>&color){
+        queue<int>q;
+        q.push(i);
+        color[i]=0;
+        
+        while(!q.empty()){
+            int curr = q.front();
+            q.pop();
+            
+            for(int j=0;j<graph[curr].size();j++){
+                
+                if(color[graph[curr][j]] == -1){
+                    color[graph[curr][j]] = color[curr]^1;
+                    q.push(graph[curr][j]);
+                }else if(color[graph[curr][j]] == color[curr]){
                     return false;
-            }
-            else{
-                if(col[v]==col[child])
-                    return false;
+                }
             }
         }
         return true;
     }
-    
-    bool isBipartite(vector<vector<int>>& graph) {
-        int n=graph.size();
-        vis.resize(n);
-        col.resize(n);
 
-        for(int i=0;i<n;++i){
-            if(vis[i]==0 && dfs(i,0,graph)==false){ 
-                return false;
+    bool isBipartite(vector<vector<int>>& graph) {
+        
+        vector<int>color(graph.size(),-1);
+        
+        // for(int i=0;i<graph.size();i++){
+        //     for(int j=0;j<graph[i].size();j++){
+        //         cout << graph[i][j] << " "; 
+        //     }
+        //     cout << "\n";
+        // }
+        
+        for(int i=0;i<graph.size();i++){
+            if(color[i] == -1){
+                if(!bfs(graph,i,color)){
+                    
+                    for(auto&it:color){
+                        cout << it << " ";
+                    }
+        
+                    return false;
+                }
             }
         }
+        
         
         return true;
     }
