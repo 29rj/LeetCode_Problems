@@ -15,10 +15,8 @@ public:
                 i = max(i,stc[s[j]]+1);
                 stc[s[j]] = j;
             }
-            else {
+            else
                 stc[s[j]] = j;
-                
-            }
             
             mx = max(mx,j-i+1);
             j++;
