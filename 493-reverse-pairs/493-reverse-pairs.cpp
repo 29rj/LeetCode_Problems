@@ -3,30 +3,24 @@ public:
     
     #define ll long long
     
-    ll merge(vector<int>&nums,int st,int end){
+    ll merge(vector<int>&nums,int st,int mid,int en){
         
         ll temp[nums.size()];
         
-        ll mid = (st+end)/2;
+        ll cn = 0, i = st,j = mid+1 , k = st;
         
-        ll i=st,j=mid+1;
-        
-        ll count = 0,k=st;
-        
-        while(i<= mid && j<=end){
-        
-            
-            if((ll)nums[i] > (ll)2*nums[j]){
-                count += (mid-i+1);
+        while(i<=mid && j<=en){
+            if((ll)nums[i] > (ll)nums[j]*2){
+                cn += (mid-i+1);
                 j++;
-            }
-            else
+            }else{
                 i++;
+            }
         }
         
         i=st,j=mid+1;
         
-        while(i<=mid && j<=end){
+        while(i<=mid && j<=en){
             
             if(nums[i] <= nums[j]){
                 temp[k++] = nums[i++];
@@ -36,7 +30,7 @@ public:
             }
         }
         
-        while(j<=end){
+        while(j<=en){
             temp[k++] = nums[j++];
         }
         
@@ -44,45 +38,39 @@ public:
             temp[k++]  = nums[i++];
         }
         
-        for(i=st;i<=end;i++){
+        for(i=st;i<=en;i++){
             nums[i] = temp[i];
         }
         
-        return count;
+        return cn;
+    }
+    
+    ll mergeSort(vector<int>&nums,int i,int j){
+        
+        if(i>=j)
+            return 0;
+        
+        ll cn = 0;
+        
+        ll mid = (i+j)/2;
+        
+        cn += mergeSort(nums,i,mid);
+        
+        cn += mergeSort(nums,mid+1,j);
+        
+        cn += merge(nums,i,mid,j);
+        
+        return cn;
         
     }
     
-    ll mergeSort(vector<int>&nums,int st,int end){
-        
-        int count = 0;
-        
-        if(st>=end)return 0;
-        
-        
-            
-            ll mid = (st+end)/2;
-            
-            count+=mergeSort(nums,st,mid);
-            
-            count+=mergeSort(nums,mid+1,end);
-            
-            count+=merge(nums,st,end);
-       
-        
-        return count;
-    }
     
     int reversePairs(vector<int>& nums) {
+        
         int n = nums.size();
-       
-       int num = mergeSort(nums,0,n-1);
         
-         for(auto&it:nums)
-            cout << it << " ";
+        int ans = mergeSort(nums,0,n-1);
         
-        cout << "\n";
-        
-        return num;
-        
+        return ans;
     }
 };
