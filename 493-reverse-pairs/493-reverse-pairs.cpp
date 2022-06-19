@@ -58,7 +58,7 @@ public:
         
         if(st>=end)return 0;
         
-        if(st<end){
+        
             
             ll mid = (st+end)/2;
             
@@ -67,7 +67,7 @@ public:
             count+=mergeSort(nums,mid+1,end);
             
             count+=merge(nums,st,end);
-        }
+       
         
         return count;
     }
