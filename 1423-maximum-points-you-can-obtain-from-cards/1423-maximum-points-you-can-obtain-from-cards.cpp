@@ -2,43 +2,49 @@ class Solution {
 public:
     int maxScore(vector<int>& cp, int k) {
         
-        for(int i=1; i < cp.size(); i++){
-            cp[i] += cp[i-1];
+        vector<int>prefix,suffix;
+        
+        int sum1=0,sum2=0,n = cp.size();
+        
+        for(int i=0;i<cp.size();i++){
+            
+            sum1 += cp[i];
+            sum2 += cp[n-i-1];
+            
+            prefix.push_back(sum1);
+            suffix.push_back(sum2);
         }
         
-        int n = cp.size();
+        reverse(suffix.begin(),suffix.end());
         
-        int maxi = INT_MIN;
+        // for(int i=0;i<n;i++){
+        //     cout << prefix[i] << " ";
+        // }
         
-        for(int i=0; i <= k ;i++){
+        int i=0,mx = -1;
+        
+        while(i <= k) {
             
-            int left = INT_MIN , right = INT_MIN;
+            int num1 = INT_MIN, num2 = INT_MIN;
             
-            if(i-1>=0){
-                left = cp[i-1];
-                
-                right = (cp[n-1] - cp[n-(k-i)-1]);
-                
-                // cout << left << " " <<right << " " << n-(k-i)-1 << " " << (right + left) << "\n";
-            }
-            else{
-                
-                if(n-k-1>=0)
-                    right = cp[n-1]-cp[n-k-1];
-                else
-                    right = cp[n-1];
-            }
+            if(i-1 >= 0)
+                num1  = prefix[i-1];
             
-            // cout << left << " " << right << "\n";
+            if(n-k+i < n)
+                num2 = suffix[n-k+i];
             
-            if(left == INT_MIN)
-                left = 0;
-            if(right == INT_MIN)
-                right = 0;
+            // cout << num1 << " " << num2 << "\n";
             
-            maxi = max(right+left,maxi);
+            if(num1 == INT_MIN){
+                mx = max(mx,num2);
+            }else if(num2 == INT_MIN){
+                mx = max(mx,num1);
+            }else
+                mx = max(mx,num1+num2);
+            
+            i++;
         }
         
-        return maxi;
+        return mx;
     }
 };
