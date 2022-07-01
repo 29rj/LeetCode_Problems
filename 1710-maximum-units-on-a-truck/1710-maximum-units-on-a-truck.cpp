@@ -8,7 +8,6 @@ public:
         });
         
         for(auto&it:bx){
-            // cout << it[0] << " " << it[1] << "\n";
             if(it[0]<=sz){
                 sz -= it[0];
                 sum += (it[1]*it[0]);
