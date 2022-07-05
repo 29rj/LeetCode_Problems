@@ -96,9 +96,14 @@ public:
         int ans=0;
         if(root->data >= l && root->data <= h){
             ans = 1;
+            ans += getCount(root->right,l,h) + getCount(root->left,l,h);
         }
-        
-        return getCount(root->left,l,h) + getCount(root->right,l,h)+ans;
+        else if(root->data < l)
+            ans += getCount(root->right,l,h);
+        else if(root->data > h)
+            ans += getCount(root->left,l,h);
+            
+        return ans;
     }
 };
 
