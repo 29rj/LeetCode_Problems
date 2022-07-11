@@ -21,8 +21,28 @@ public:
             helper(root->right,ans);
         };
         
+        stack<TreeNode*>stk;
+        
         vector<int>ans;
-        helper(root,ans);
+        
+        TreeNode*curr = root;
+        
+        while(curr != NULL || stk.empty() == false){
+            
+           while(curr!=NULL){
+               stk.push(curr);
+               curr = curr -> left;
+           }
+            
+            curr = stk.top();
+            
+            stk.pop();
+            
+            ans.push_back(curr->val);
+            
+            curr = curr -> right;
+        }
+        
         return ans;
     }
 };
