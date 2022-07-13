@@ -9,32 +9,28 @@ using namespace std;
 
 class Solution{
 public:
-    vector<vector<int>>dp;
-    
-    int mcm_helper(int arr[],int N,int st,int end){
-        if(st >= end)
+    int helper(int i,int j,int arr[],vector<vector<int>>&dp){
+        if(i==j)
             return 0;
-            
-        if(dp[st][end] != -1)
-            return dp[st][end];
-            
-        int mn = INT_MAX;
         
-        for(int k=st;k<end;k++){
+        if(dp[i][j] != -1)
+            return dp[i][j];
             
-            int tempans = mcm_helper(arr,N,st,k) + mcm_helper(arr,N,k+1,end) + arr[st-1]*arr[k]*arr[end];
-            mn = min(mn,tempans);
+        int mn = 1e9;
+        
+        for(int k=i;k<j;k++){
+            int temp = arr[i-1]*arr[k]*arr[j] + helper(i,k,arr,dp) + helper(k+1,j,arr,dp);
+            mn = min(mn,temp);
         }
         
-        dp[st][end] = mn;
-        
-        return mn;
+        return dp[i][j] = mn;
     }
     
     int matrixMultiplication(int N, int arr[])
     {
-       dp.resize(N,vector<int>(N,-1));
-       return mcm_helper(arr,N,1,N-1);
+        vector<vector<int>>dp(N,vector<int>(N,-1));
+        
+        return helper(1,N-1,arr,dp);
     }
 };
 
