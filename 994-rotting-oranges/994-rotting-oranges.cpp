@@ -2,85 +2,64 @@ class Solution {
 public:
     int orangesRotting(vector<vector<int>>& grid) {
         
-        int n = grid.size(),m = grid[0].size();
+        queue<pair<int,int>>q;
         
-        vector<vector<bool>> vis(n,vector<bool>(m,false));
+        int m = grid.size(),n= grid[0].size();
+        bool ch = false;
         
-        queue<pair<int,int>> q;
-        
-        int c = 0,ch=0;
-        
-        for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
                 
                 if(grid[i][j] == 2){
+                    grid[i][j] = 0;
                     q.push({i,j});
-                    c=0;
-                    ch=1;
-                }
-                
-                if(grid[i][j] == 1){
-                    c=-1;
+                    ch = true;
                 }
             }
         }
         
-        if(ch == 1)
-            c=0;
+        int dir[][2] = {{0,1},{1,0},{-1,0},{0,-1}};
+        int depth = 0;
         
-        while(!q.empty() && c!=-1){
+        while(!q.empty()){
             
-            int k = q.size();
+            int sz = q.size();
             
-            while(k--){
-                
-                pair<int,int>pr = q.front();
+            while(sz > 0) {
+            
+                int r = q.front().first;
+                int c = q.front().second;
                 q.pop();
-          
-            int ci = pr.first ,cj = pr.second;
-            
-            if(ci-1>=0 && !vis[ci-1][cj] && grid[ci-1][cj] == 1 && grid[ci][cj] == 2){
-                q.push({ci-1,cj});
-                grid[ci-1][cj] = 2;
-                vis[ci-1][cj] = true;
-               
-            }
-            
-            if(ci+1<n && !vis[ci+1][cj] && grid[ci+1][cj] == 1 && grid[ci][cj] == 2){
-                q.push({ci+1,cj});
-                grid[ci+1][cj] = 2;
-                vis[ci+1][cj] = true;
-            }
-            
-            if(cj+1<m  && !vis[ci][cj+1] && grid[ci][cj+1] == 1 && grid[ci][cj] == 2){
-                q.push({ci,cj+1});
-                grid[ci][cj+1] = 2;
-                vis[ci][cj+1] = true;
-            }
-            
-            if(cj-1>=0  && !vis[ci][cj-1] && grid[ci][cj-1] == 1 && grid[ci][cj] == 2){
-                q.push({ci,cj-1});
-                grid[ci][cj-1] = 2;
-                vis[ci][cj-1] = true;
                 
-            }
+                for(int i=0;i<4;i++){
+                    int sr = r + dir[i][0];
+                    int sc = c + dir[i][1];
+                    
+                    if(sr < 0 || sc < 0 || sr >= m || sc >= n || grid[sr][sc] == 0){
+                        continue;
+                    }
+                    
+                    q.push({sr,sc});
+                    
+                    grid[sr][sc] = 0;
+                    
+                }
                 
+                sz--;
             }
             
-            if(q.empty())
-                break;
-            c++;
+            depth++;
         }
         
-        for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
                 if(grid[i][j] == 1){
-                    cout << c << "\n";
                     return -1;
                 }
+
             }
         }
-    
-        return c;
+        
+        return ch?depth-1:0;
     }
 };
