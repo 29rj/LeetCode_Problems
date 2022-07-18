@@ -1,62 +1,51 @@
 class Solution {
 public:
-    vector<int> prefix;
     
-//     vector<int> func(int r1,int r2,vector<vector<int>> &grid){
-//         int n = grid.size(),m = grid[0].size();
-//         vector<int> res(m);
+    vector<int>f(int r1,int r2,vector<vector<int>>&matrix){
         
-//         for(int i = r1 ; i <= r2 ; i++){
-//             for(int j = 0; j < m ; j++)
-//                 res[j] += grid[i][j]; 
-//         }
+        vector<int>vec;
         
-//         return res;
-//     }
-    
-    
-    int numSubmatrixSumTarget(vector<vector<int>>& matrix, int target) {
-//         int n = mt.size(),m = mt[0].size();
-//         prefix.assign(m,vector<int>());
-//         int ans = 0 ;
-        
-//         for(in)
-//         for(int i = 0 ; i < n ; i++){
-//             for(int j = i ; j < n ; j++){
-//                 vector<int> res = func(i,j,mt);
-//                 map<int,int> m;
-//                 m[0]++;
-                
-//             }
-//         }
-        
-          int rows = matrix.size() , cols = matrix[0].size();
-        
-        if(rows < 1){
-            return 0;
+        for(int i=0;i<matrix[0].size();i++){
+            if(r1-1>=0)
+                vec.push_back(matrix[r2][i]-matrix[r1-1][i]);
+            else
+                vec.push_back(matrix[r2][i]);
         }
         
-        // calculate prefix sum for rows
-        for(int row = 0 ; row < rows ; row++){
-            for(int col = 1 ; col < cols ;col++){
-                matrix[row][col] =  matrix[row][col] + matrix[row][col -1];
+        return vec;
+    }
+    
+    int subarrayK(int K,vector<int>vec){
+        unordered_map<int,int>mp;
+        mp[0]++;
+        int sum = 0,cn=0;
+        for(int i=0;i<vec.size();i++){
+            sum += vec[i];
+            cn += mp[sum-K];
+            mp[sum]++;
+        }
+        return cn;
+    }
+    
+    int numSubmatrixSumTarget(vector<vector<int>>& matrix, int K) {
+        
+        int r = matrix.size(),c = matrix[0].size();
+        int cn = 0;
+        
+        for(int i=0;i<c;i++){
+            for(int j=1;j<r;j++){
+                matrix[j][i] += matrix[j-1][i];
             }
         }
-      
-        int count = 0 , sum ;
-        unordered_map<int , int> counter;
-        for(int colstart = 0 ; colstart < cols ;colstart++){
-            for(int col = colstart ; col < cols; col++){
-                counter.clear();
-                counter[0] = 1;
-                sum =0;
-                for(int row = 0 ; row < rows ;row++){
-                    sum += matrix[row][col] - (colstart > 0 ? matrix[row][colstart - 1] : 0 );
-                    count += (counter.find(sum- target) != counter.end() ? counter[sum-target] : 0);
-                    counter[sum]++;
-                }
+        
+        for(int i=0;i<r;i++){
+            for(int j=i;j<r;j++){
+                vector<int>vec = f(i,j,matrix);
+                cn += subarrayK(K,vec);
             }
         }
-        return count;
+        
+        return cn;
+        
     }
 };
