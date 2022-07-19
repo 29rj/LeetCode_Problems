@@ -21,19 +21,19 @@ public:
             int left  = recur(root->left,res);
             int right = recur(root->right,res);
             
-            int temp = max(left,right)+1;
+            int temp = max(left,right);//without considering root
             
-            int nowAns = max(temp,left+right+1);
+            int nowAns = max(temp,left+right);
             
             res = max(res,nowAns);
             
-            return temp;
+            return temp+1;
         };
         
         int res = INT_MIN;
         
         int ans = recur(root,res);
         
-        return res-1;
+        return res;
     }
 };
