@@ -11,30 +11,30 @@
  */
 class Solution {
 public:
+    
+    int helper(TreeNode*root,int &ans){
+        if(!root)
+            return 0;
+        
+        int left = helper(root->left,ans);
+        int right = helper(root->right,ans);
+        
+        if(left < 0 && right < 0)
+            left = 0;
+        
+        int temp = root-> val + max(left,right); 
+        
+        int currAns = max(temp,left+right+root->val);//left and right + root
+        
+        ans = max(ans,currAns);
+        
+        return temp;
+    }
+    
     int maxPathSum(TreeNode* root) {
-        function<int(TreeNode*,int &)> recur = [&](TreeNode*root,int &res){
-            if(root == nullptr)
-                return 0;
-            
-            int left = recur(root->left,res);
-            int right = recur(root->right,res);
-            
-            if(left < 0 && right < 0)
-                left = 0;
-                
-            int temp = root->val + max(left,right);
-            
-            int currAns = max(temp,left+right+root->val);
-            
-            res = max(res,currAns);
-            
-            return temp;
-        };
         
-        int res = INT_MIN;
-        
-        recur(root,res);
-        
-        return res;
+        int ans = INT_MIN;
+        helper(root,ans);
+        return ans;
     }
 };
