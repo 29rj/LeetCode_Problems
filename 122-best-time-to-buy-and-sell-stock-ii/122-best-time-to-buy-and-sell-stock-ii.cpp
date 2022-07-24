@@ -1,30 +1,29 @@
 class Solution {
 public:
-    vector<vector<int>>dp;
-    
-    int helper(vector<int>&prices,int i,bool buy){
+    int maxProfit(vector<int>& p) {
         
-        if(i == prices.size()){
+        if(p.size() == 1 ||p.size() == 0)
             return 0;
+        
+        int n = p.size();
+        
+        vector<int>dp(n);
+        
+        int sum = p[1] > p[0] ? p[1]-p[0] : 0;
+        
+        for(int i=1;i+1<n;i++) {
+            
+            int temp;
+            
+            if(p[i+1] > p[i]){
+                temp = sum + p[i+1]-p[i];
+            }else{
+                temp = sum;
+            }
+            
+            sum = temp;
         }
         
-        if(dp[i][buy] != -1)
-            return dp[i][buy];
-        
-        if(buy){
-            return dp[i][buy] = max((-prices[i] + helper(prices,i+1,0)),helper(prices,i+1,1));
-        }else{
-            return dp[i][buy] = max(prices[i]+helper(prices,i+1,1),helper(prices,i+1,0));
-        }
-        
-    }
-    
-    int maxProfit(vector<int>& prices) {
-        int n = prices.size();
-        
-        dp.resize(n,vector<int>(2,-1));
-
-        return helper(prices,0,1);
-        
+        return sum;
     }
 };
